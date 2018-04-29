@@ -25,8 +25,8 @@
     "breeze-bridge-angular": "^4.0.2",
     "breeze-client": "^1.7.1",
     "core-js": "^2.4.1",
+    "jquery": "^1.12.4",
     "popper.js": "^1.14.0",
-    "query": "^0.2.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
