@@ -17,4 +17,9 @@ export class CustomerListComponent implements OnInit {
         this._zzaRepo.getCustomers().then(customers => this.customers = customers,
                 error => console.log(error));
     }
+
+    save() {
+        this._zzaRepo.saveChanges().then(() => this.ngOnInit(),
+                    error => console.log(error));
+    }
 }

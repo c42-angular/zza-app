@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { BreezeBridgeAngularModule } from 'breeze-bridge-angular';
 import { NamingConvention } from 'breeze-client';
@@ -18,7 +19,8 @@ import { CustomerListComponent } from './customers/customer-list.component';
   imports: [
     BrowserModule,
     BreezeBridgeAngularModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [ZzaRepositoryService],
   bootstrap: [AppComponent]
