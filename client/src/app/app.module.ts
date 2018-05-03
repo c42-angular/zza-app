@@ -9,12 +9,14 @@ import { NamingConvention } from 'breeze-client';
 import { AppComponent } from './app.component';
 import { ZzaRepositoryService } from './shared/zzarepository-service';
 import { CustomerListComponent } from './customers/customer-list.component';
+import { CustomerListItemComponent } from './customers/customer-list-item/customer-list-item.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    CustomerListItemComponent
   ],
   imports: [
     BrowserModule,

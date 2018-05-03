@@ -1,0 +1,13 @@
+<div style="margin-top: 10px">
+  <hr [ngClass] = "{'current-customer': isSelected}"/>
+  <div class="row">
+    <div class="col-md-6">{{customer.firstName}} {{customer.lastName}}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">{{customer.email}}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">{{customer.phone}}</div>
+  </div>
+  <hr [ngClass] = "{'current-customer': isSelected}"/>
+</div>

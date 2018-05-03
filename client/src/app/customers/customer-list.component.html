@@ -1,8 +1,7 @@
 <h1>Customers</h1>
-<button class="btn btn-primary" (click)="save()">Save</button>
 <div class="row" *ngFor="let customer of customers">
-    <div class="col-md-6">
-        <span> {{customer.firstName}} </span> 
-        <input type="text" name="lastName" [(ngModel)]="customer.lastName">
-    </div>    
+  <zza-customer-list-item
+      [customer]="customer"
+      [selectedCustomer]="selectedCustomer"
+      (click)="onSelect(customer)"></zza-customer-list-item>
 </div>
