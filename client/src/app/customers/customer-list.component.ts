@@ -14,7 +14,9 @@ export class CustomerListComponent implements OnInit {
     customers: Customer[];
     
     ngOnInit() { 
-        this._zzaRepo.getCustomers().then(customers => this.customers = customers,
+        this._zzaRepo.getCustomers().then(customers => {
+            this.customers = customers
+        },
                 error => console.log(error));
     }
 

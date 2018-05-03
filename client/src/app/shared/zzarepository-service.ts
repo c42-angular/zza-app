@@ -2,15 +2,18 @@ import { Injectable } from '@angular/core';
 
 import{ EntityManager, EntityQuery} from 'breeze-client';
 
-import { Customer } from '../model/customer';
-
+import { Customer } from '../model/entity-model';
+import { RegistrationHelper } from '../model/registration-helper'
 
 @Injectable()
 export class ZzaRepositoryService {
 
-    private _em: EntityManager = new EntityManager('http://localhost:2113/breeze/zza');
+    // private _em: EntityManager = new EntityManager('http://localhost:2113/breeze/zza');
+    private _em: EntityManager = new EntityManager('http://zzaapi.azurewebsites.net/breeze/zza');
 
-    constructor() { }
+    constructor() { 
+        RegistrationHelper.register(this._em.metadataStore);
+    }
 
     getCustomers() : Promise<Customer[]> {
         let promise = new Promise<Customer[]>((resolve, reject) => {
