@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { EntityManager, EntityQuery, Predicate, FilterQueryOp } from 'breeze-client';
 
-import { Customer } from '../model/entity-model';
+import { Customer, Order } from '../model/entity-model';
 import { RegistrationHelper } from '../model/registration-helper';
 import { reject } from 'q';
 
@@ -56,6 +56,19 @@ export class ZzaRepositoryService {
         });
 
         return promise;
+    }
+
+    getCustomerOrderHistory(customerId: string): Promise<Order[]> {
+      const promise = new Promise<Order[]>((resolve, reject) => {
+        let query = EntityQuery.from('Orders')
+              .where('customerId', 'equals', customerId)
+              .expand(['items', 'items.product']);
+
+        this._em.executeQuery(query).then(queryResult => resolve(<Order[]>queryResult.results),
+          error => reject(error));
+      });
+
+      return promise;
     }
 
     saveChanges() {

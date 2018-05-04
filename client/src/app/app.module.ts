@@ -12,13 +12,15 @@ import { CustomerListComponent } from './customers/customer-list.component';
 import { CustomerListItemComponent } from './customers/customer-list-item/customer-list-item.component';
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { AppRoutingModule } from './app-routing.module';
+import { OrderItemsConcatProductsPipe } from './shared/order-items-concat-products.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
     CustomerListItemComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
+    OrderItemsConcatProductsPipe
   ],
   imports: [
     BrowserModule,

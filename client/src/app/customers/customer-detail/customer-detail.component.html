@@ -41,3 +41,17 @@
     </div>
   </form>
 </div>
+
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Date</th><th>Order Items</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.orderDate | date: 'short' }}</td>
+        <td>{{ order.items | orderitemsconcatproducts }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,3 +1,4 @@
+import { Order } from './../../model/order';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ZzaRepositoryService } from '../../shared/zzarepository-service';
@@ -11,6 +12,7 @@ import { Customer } from '../../model/entity-model';
 export class CustomerDetailComponent implements OnInit {
   private customer: Customer = new Customer();
   private errorMessage: string;
+  private orders: Order[];
 
   constructor(private _router: Router, private _route: ActivatedRoute, private _zzaRepo: ZzaRepositoryService) { }
 
@@ -18,6 +20,7 @@ export class CustomerDetailComponent implements OnInit {
     const id = this._route.snapshot.params['customer-id'];
     this._zzaRepo.getCustomer(id).then(customer => {
       this.customer = customer;
+      this._zzaRepo.getCustomerOrderHistory(id).then(orders => this.orders = orders);
     }, error => {
         this.errorMessage = error;
     });
