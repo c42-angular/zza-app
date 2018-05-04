@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { EntityManager, EntityQuery, Predicate, FilterQueryOp } from 'breeze-client';
+import { EntityManager, EntityQuery, Predicate, FilterQueryOp, FetchStrategySymbol, FetchStrategy } from 'breeze-client';
 
 import { Customer, Order } from '../model/entity-model';
 import { RegistrationHelper } from '../model/registration-helper';
@@ -36,14 +36,14 @@ export class ZzaRepositoryService {
         let promise = new Promise<Customer>((resolve, reject) => {
             let query = EntityQuery.from('Customers').where('id', 'equals', id);
 
+            let strategy: FetchStrategySymbol;
             if (!this._em.metadataStore.isEmpty) {
-                let customers = this._em.executeQueryLocally(query);
-                if (customers && customers.length === 1) {
-                    resolve(<any>customers[0]);
-                }
+              strategy = FetchStrategy.FromLocalCache;
+            } else {
+              strategy = FetchStrategy.FromServer;
             }
 
-            this._em.executeQuery(query).then(queryResults => {
+            this._em.executeQuery(query.using(strategy)).then(queryResults => {
                 let customers = queryResults.results;
                 if (customers && customers.length ===1) {
                     resolve(<any> customers[0]);
