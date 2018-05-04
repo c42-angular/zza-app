@@ -26,6 +26,7 @@ export class CustomerDetailComponent implements OnInit {
   onSave() {
     this._zzaRepo.saveChanges().then(() => {
       this.ngOnInit();
+      this._router.navigate(['customer-list']);
     }, error => {
       this.errorMessage = error;
     });
