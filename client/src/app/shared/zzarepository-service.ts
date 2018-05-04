@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { EntityManager, EntityQuery, Predicate, FilterQueryOp, FetchStrategySymbol, FetchStrategy } from 'breeze-client';
+import { EntityManager, EntityQuery, Predicate, FilterQueryOp, FetchStrategySymbol, FetchStrategy, EntityState } from 'breeze-client';
 
 import { Customer, Order } from '../model/entity-model';
 import { RegistrationHelper } from '../model/registration-helper';
@@ -56,6 +56,17 @@ export class ZzaRepositoryService {
         });
 
         return promise;
+    }
+
+    // gets only from local cache
+    getCustomerById(id: string) {
+      return this._em.getEntityByKey('Customer', id);
+    }
+
+    // gets entities from local cache in specified states
+    getCustomersWithChanges() {
+      return this._em.getEntities('Customer',
+            [EntityState.Added, EntityState.Deleted, EntityState.Modified]);
     }
 
     getCustomerOrderHistory(customerId: string): Promise<Order[]> {
