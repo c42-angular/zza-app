@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import{ EntityManager, EntityQuery} from 'breeze-client';
+import { EntityManager, EntityQuery, Predicate, FilterQueryOp } from 'breeze-client';
 
 import { Customer } from '../model/entity-model';
-import { RegistrationHelper } from '../model/registration-helper'
+import { RegistrationHelper } from '../model/registration-helper';
 import { reject } from 'q';
 
 @Injectable()
@@ -12,13 +12,13 @@ export class ZzaRepositoryService {
     // private _em: EntityManager = new EntityManager('http://localhost:2113/breeze/zza');
     private _em: EntityManager = new EntityManager('http://zzaapi.azurewebsites.net/breeze/zza');
 
-    constructor() { 
+    constructor() {
         RegistrationHelper.register(this._em.metadataStore);
     }
 
     getCustomers() : Promise<Customer[]> {
-        let promise = new Promise<Customer[]>((resolve, reject) => {
-            let query = EntityQuery.from("Customers");
+        const promise = new Promise<Customer[]>((resolve, reject) => {
+            const query = EntityQuery.from('Customers');
             this._em.executeQuery(query).then(queryResult => resolve(<any>queryResult.results),
                     error => reject(error));
         });
@@ -54,10 +54,28 @@ export class ZzaRepositoryService {
 
     saveChanges() {
         let promise = new Promise((resolve, reject) => {
-            this._em.saveChanges().then(() => resolve(), 
+            this._em.saveChanges().then(() => resolve(),
                             error => reject(error));
         });
 
         return promise;
+    }
+
+    search(searchText: string, field: string): Promise<Customer[]> {
+      const promise = new Promise<Customer[]>((resolve, reject) => {
+        let pred: Predicate;
+
+        if (field === 'name') {
+          pred = new Predicate('firstName', FilterQueryOp.Contains, searchText)
+                  .or(new Predicate('lastName', FilterQueryOp.Contains, searchText));
+        } else { pred = new Predicate(field, FilterQueryOp.Contains, searchText); }
+
+        const query = EntityQuery.from('Customers').where(pred);
+        const customers = <Customer[]> this._em.executeQueryLocally(query);
+
+        resolve(customers);
+      });
+
+      return promise;
     }
 }

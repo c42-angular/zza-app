@@ -1,4 +1,15 @@
 <h1>Customers</h1>
+
+<div class="row">
+  <label for="searchInput">Search:</label>
+  <input type="text" name="searchInput" autofocus #searchTerm (keyup)="search(searchTerm.value)" (blur)="search(searchTerm.value)">
+  <select [(ngModel)]="searchField" (change)="ssearch(searchTerm.value)">
+    <option value="name">Name</option>
+    <option value="phone">Phone</option>
+    <option value="email">Email</option>
+  </select>
+</div>
+
 <div class="row" *ngFor="let customer of customers">
   <zza-customer-list-item
       [customer]="customer"

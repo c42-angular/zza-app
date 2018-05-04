@@ -11,6 +11,7 @@ import { ZzaRepositoryService } from '../shared/zzarepository-service';
 
 export class CustomerListComponent implements OnInit {
     private selectedCustomer: Customer;
+    private searchField = 'name';
 
     constructor(private _zzaRepo: ZzaRepositoryService) { }
 
@@ -20,7 +21,7 @@ export class CustomerListComponent implements OnInit {
         this._zzaRepo.getCustomers().then(customers => {
             this.customers = customers;
         },
-                error => console.log(error));
+        error => console.log(error));
     }
 
     save() {
@@ -30,5 +31,11 @@ export class CustomerListComponent implements OnInit {
 
     onSelect(customer: Customer) {
       this.selectedCustomer = customer;
+    }
+
+    search(value) {
+      this._zzaRepo.search(value, this.searchField).then(customers => {
+        this.customers = customers;
+      }, error => console.log(error));
     }
 }
