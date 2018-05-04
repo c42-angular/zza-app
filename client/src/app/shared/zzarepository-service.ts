@@ -80,6 +80,18 @@ export class ZzaRepositoryService {
         return promise;
     }
 
+    getCustomerSummaries() : Promise<Customer[]> {
+      const promise = new Promise<Customer[]>((resolve, reject) => {
+        const query = EntityQuery.from('Customers')
+                      .select(['firstName', 'lastName', 'phone', 'email']);
+        this._em.executeQuery(query).then(queryResults => {
+          resolve(<Customer[]> queryResults.results);
+        }, error => reject(error));
+      });
+
+      return promise;
+    }
+
     search(searchText: string, field: string): Promise<Customer[]> {
       const promise = new Promise<Customer[]>((resolve, reject) => {
         let pred: Predicate;
