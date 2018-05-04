@@ -1,5 +1,9 @@
 <h1>Customers</h1>
 
+<div class="row" *ngIf="pageCount">
+  <a class="btn btn-default" (click)="pageDown()">&lt;</a>{{currentPage}}/{{pageCount}}<a class="btn btn-default" (click)="pageUp()">&gt;</a>
+</div>
+
 <div class="row">
   <label for="searchInput">Search:</label>
   <input type="text" name="searchInput" autofocus #searchTerm [(ngModel)]="searchInput">

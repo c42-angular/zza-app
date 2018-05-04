@@ -16,11 +16,17 @@ export class ZzaRepositoryService {
         RegistrationHelper.register(this._em.metadataStore);
     }
 
-    getCustomers() : Promise<Customer[]> {
-        const promise = new Promise<Customer[]>((resolve, reject) => {
-            const query = EntityQuery.from('Customers');
-            this._em.executeQuery(query).then(queryResult => resolve(<any>queryResult.results),
-                    error => reject(error));
+    getCustomers(pageNumber: number, pageSize: number): Promise<any> {
+        const promise = new Promise<any>((resolve, reject) => {
+            const query = EntityQuery.from('Customers')
+                        .orderBy(['state', 'lastName'])
+                        .skip((pageNumber - 1) * pageSize)
+                        .take(pageSize)
+                        .inlineCount();
+
+                        this._em.executeQuery(query).then(queryResult =>
+                            resolve({customers: queryResult.results, totalRecords: queryResult.inlineCount}),
+                            error => reject(error));
         });
 
         return promise;
