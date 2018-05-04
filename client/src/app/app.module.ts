@@ -10,24 +10,27 @@ import { AppComponent } from './app.component';
 import { ZzaRepositoryService } from './shared/zzarepository-service';
 import { CustomerListComponent } from './customers/customer-list.component';
 import { CustomerListItemComponent } from './customers/customer-list-item/customer-list-item.component';
-
+import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomerListComponent,
-    CustomerListItemComponent
+    CustomerListItemComponent,
+    CustomerDetailComponent
   ],
   imports: [
     BrowserModule,
     BreezeBridgeAngularModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [ZzaRepositoryService],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
   constructor() {
     NamingConvention.camelCase.setAsDefault();
   }
