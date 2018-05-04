@@ -4,6 +4,7 @@ import{ EntityManager, EntityQuery} from 'breeze-client';
 
 import { Customer } from '../model/entity-model';
 import { RegistrationHelper } from '../model/registration-helper'
+import { reject } from 'q';
 
 @Injectable()
 export class ZzaRepositoryService {
@@ -20,6 +21,32 @@ export class ZzaRepositoryService {
             let query = EntityQuery.from("Customers");
             this._em.executeQuery(query).then(queryResult => resolve(<any>queryResult.results),
                     error => reject(error));
+        });
+
+        return promise;
+    }
+
+    getCustomer(id) : Promise<Customer> {
+        let promise = new Promise<Customer>((resolve, reject) => {
+            let query = EntityQuery.from('Customers').where('id', 'equals', id);
+
+            if (!this._em.metadataStore.isEmpty) {
+                let customers = this._em.executeQueryLocally(query);
+                if (customers && customers.length === 1) {
+                    resolve(<any>customers[0]);
+                }
+            }
+
+            this._em.executeQuery(query).then(queryResults => {
+                let customers = queryResults.results;
+                if (customers && customers.length ===1) {
+                    resolve(<any> customers[0]);
+                } else {
+                    reject(null);
+                }
+            }, error => {
+                reject(error);
+            });
         });
 
         return promise;

@@ -9,5 +9,8 @@
   <div class="row">
     <div class="col-md-6">{{customer.phone}}</div>
   </div>
+  <div class="row">
+    <a class="btn btn-primary" routerLink="/customer-detail/{{customer.id}}">Details</a>
+  </div>
   <hr [ngClass] = "{'current-customer': isSelected}"/>
 </div>
