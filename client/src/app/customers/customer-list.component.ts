@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
+// tslint:disable-next-line:import-blacklist
+import { Observable } from 'rxjs/Rx';
 
 import { Customer } from '../model/customer';
 import { ZzaRepositoryService } from '../shared/zzarepository-service';
@@ -12,8 +14,15 @@ import { ZzaRepositoryService } from '../shared/zzarepository-service';
 export class CustomerListComponent implements OnInit {
     private selectedCustomer: Customer;
     private searchField = 'name';
+    private searchInput: string;
 
-    constructor(private _zzaRepo: ZzaRepositoryService) { }
+    constructor(private _zzaRepo: ZzaRepositoryService, private _elementRef: ElementRef) {
+      const eventStream = Observable.fromEvent(_elementRef.nativeElement, 'keyup')
+                .map((() => this.searchInput))
+                .debounceTime(500)
+                .distinctUntilChanged();
+      eventStream.subscribe(input => this.search(input));
+    }
 
     customers: Customer[];
 

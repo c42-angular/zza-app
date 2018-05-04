@@ -2,7 +2,7 @@
 
 <div class="row">
   <label for="searchInput">Search:</label>
-  <input type="text" name="searchInput" autofocus #searchTerm (keyup)="search(searchTerm.value)" (blur)="search(searchTerm.value)">
+  <input type="text" name="searchInput" autofocus #searchTerm [(ngModel)]="searchInput">
   <select [(ngModel)]="searchField" (change)="ssearch(searchTerm.value)">
     <option value="name">Name</option>
     <option value="phone">Phone</option>
