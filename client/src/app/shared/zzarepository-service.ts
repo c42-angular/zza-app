@@ -32,9 +32,9 @@ export class ZzaRepositoryService {
         return promise;
     }
 
-    getCustomer(id) : Promise<Customer> {
-        let promise = new Promise<Customer>((resolve, reject) => {
-            let query = EntityQuery.from('Customers').where('id', 'equals', id);
+    getCustomer(id): Promise<Customer> {
+        const promise = new Promise<Customer>((resolve, reject) => {
+            const query = EntityQuery.from('Customers').where('id', 'equals', id);
 
             let strategy: FetchStrategySymbol;
             if (!this._em.metadataStore.isEmpty) {
@@ -44,8 +44,8 @@ export class ZzaRepositoryService {
             }
 
             this._em.executeQuery(query.using(strategy)).then(queryResults => {
-                let customers = queryResults.results;
-                if (customers && customers.length ===1) {
+                const customers = queryResults.results;
+                if (customers && customers.length === 1) {
                     resolve(<any> customers[0]);
                 } else {
                     reject(null);
@@ -71,7 +71,7 @@ export class ZzaRepositoryService {
 
     getCustomerOrderHistory(customerId: string): Promise<Order[]> {
       const promise = new Promise<Order[]>((resolve, reject) => {
-        let query = EntityQuery.from('Orders')
+        const query = EntityQuery.from('Orders')
               .where('customerId', 'equals', customerId)
               .expand(['items', 'items.product']);
 
@@ -83,7 +83,7 @@ export class ZzaRepositoryService {
     }
 
     saveChanges() {
-        let promise = new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
             this._em.saveChanges().then(() => resolve(),
                             error => reject(error));
         });
@@ -91,7 +91,7 @@ export class ZzaRepositoryService {
         return promise;
     }
 
-    getCustomerSummaries() : Promise<Customer[]> {
+    getCustomerSummaries(): Promise<Customer[]> {
       const promise = new Promise<Customer[]>((resolve, reject) => {
         const query = EntityQuery.from('Customers')
                       .select(['firstName', 'lastName', 'phone', 'email']);
