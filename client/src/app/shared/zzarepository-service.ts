@@ -1,19 +1,49 @@
 import { Injectable } from '@angular/core';
 
-import { EntityManager, EntityQuery, Predicate, FilterQueryOp, FetchStrategySymbol, FetchStrategy, EntityState } from 'breeze-client';
+import { EntityManager, EntityQuery, Predicate, FilterQueryOp,
+    FetchStrategySymbol, FetchStrategy, EntityState, Entity, core } from 'breeze-client';
 
 import { Customer, Order } from '../model/entity-model';
 import { RegistrationHelper } from '../model/registration-helper';
-import { reject } from 'q';
 
 @Injectable()
 export class ZzaRepositoryService {
 
-    // private _em: EntityManager = new EntityManager('http://localhost:2113/breeze/zza');
+   // private _em: EntityManager = new EntityManager('http://localhost:2113/breeze/zza');
     private _em: EntityManager = new EntityManager('http://zzaapi.azurewebsites.net/breeze/zza');
+    private _isInitialised = false;
 
     constructor() {
         RegistrationHelper.register(this._em.metadataStore);
+    }
+
+    initialise(): Promise<boolean> {
+      const promise = new Promise<boolean>((resolve, reject) => {
+        // tslint:disable-next-line:curly
+        if (this._isInitialised) {
+          resolve(true);
+        } else {
+        this._em.fetchMetadata()
+          .then(_ => {
+            this._isInitialised = true;
+            resolve(true);
+          })
+          .catch(err => {
+            console.error(err);
+            reject(false);
+          });
+        }
+      });
+
+      return promise;
+    }
+
+    createEntity(entityType: string): Entity {
+      const config = {};
+
+      if (entityType === 'Customer') config.id = core.getUuid();
+
+      return this._em.createEntity(entityType, config);
     }
 
     getCustomers(pageNumber: number, pageSize: number): Promise<any> {

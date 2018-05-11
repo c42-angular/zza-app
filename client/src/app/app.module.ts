@@ -13,6 +13,7 @@ import { CustomerListItemComponent } from './customers/customer-list-item/custom
 import { CustomerDetailComponent } from './customers/customer-detail/customer-detail.component';
 import { AppRoutingModule } from './app-routing.module';
 import { OrderItemsConcatProductsPipe } from './shared/order-items-concat-products.pipe';
+import { InitGuard } from './shared/init-guard';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { OrderItemsConcatProductsPipe } from './shared/order-items-concat-produc
     FormsModule,
     AppRoutingModule
   ],
-  providers: [ZzaRepositoryService],
+  providers: [ZzaRepositoryService, InitGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
